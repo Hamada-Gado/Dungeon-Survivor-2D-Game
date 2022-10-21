@@ -56,11 +56,10 @@ public class UI{
 		g2.drawString("HP: " + gp.player.hit_point, 20, 40);
 		g2.drawString("Steps: " + gp.player.steps, 220, 40);
 		
-		
-		if(gp.player.rolling || gp.player.steps != 0) {
-		    g2.drawImage(redDice[gp.player.dice[0]], 400, 0, gp.tileSize, gp.tileSize, null);
-            g2.drawImage(blueDice[gp.player.dice[1]], 455, 0, gp.tileSize, gp.tileSize, null);
-		}
+//		if(gp.player.rolling || gp.player.steps != 0) {
+//		    g2.drawImage(redDice[gp.player.dice[0]], 400, 0, gp.tileSize, gp.tileSize, null);
+//            g2.drawImage(blueDice[gp.player.dice[1]], 455, 0, gp.tileSize, gp.tileSize, null);
+//		}
 		
 		if(gp.state == gp.BATTLE) {
 		    g2.drawImage(redDice[gp.player.dice[0]], 400, 0, gp.tileSize, gp.tileSize, null);

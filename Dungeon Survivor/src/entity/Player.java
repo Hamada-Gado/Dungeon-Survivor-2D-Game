@@ -12,14 +12,14 @@ import main.GamePanel;
 public class Player extends Entity{
 	
 	GamePanel gp;
-	Random randomGen;
-	public boolean rolling;
-	public int diceCounter;
+//	Random randomGen;
+//	public boolean rolling;
+//	public int diceCounter;
 	public int state;
 	
 	public Player(GamePanel gp) {
 		this.gp = gp;
-		randomGen = new Random();
+//		randomGen = new Random();
 		setDefaultValues();
 		getPlayerImage();
 	}
@@ -27,13 +27,13 @@ public class Player extends Entity{
 	public void setDefaultValues() {
 		x = 17 * gp.tileSize;
 		y = 1 * gp.tileSize;
-		speed = 1;
+		speed = 2;
 		steps = 0;
 		facing = true;
 		direction = DOWN;
 		hit_point = 400;
 		symbol = HERO;
-		diceCounter = 0;
+//		diceCounter = 0;
 		state = 0;
 	}
 	
@@ -97,50 +97,50 @@ public class Player extends Entity{
 	
 	public void update() {
 	    
-	    if(gp.keyH.rPressed && gp.state == gp.MOVE && steps == 0) {
-	        rolling = true;            
-	    }
-       
-	    if(rolling) {
-	        if(diceCounter < 50) {
-	            dice[0] = randomGen.nextInt(6);
-	            dice[1] = randomGen.nextInt(6);
-	            diceCounter++;
-	        }
-	        else {
-	            switch(dice[0]+1) {
-	                case 1:
-	                case 4:
-	                    steps += 1;
-	                    break;
-	                case 2:
-	                case 5:
-	                    steps += 2;
-	                    break;
-	                case 3:
-	                case 6:
-	                    steps += 3;
-	                    break;
-	            }
-               
-	            switch(dice[1]+1) {
-	                case 1:
-	                case 4:
-	                    steps += 1;
-	                    break;
-	                case 2:
-	                case 5:
-	                    steps += 2;
-	                    break;
-	                case 3:
-	                case 6:
-	                    steps += 3;
-	                    break;
-	            }
-	            rolling = false;
-	            diceCounter = 0;
-	        }
-	    }
+//	    if(gp.keyH.rPressed && gp.state == gp.MOVE && steps == 0) {
+//	        rolling = true;            
+//	    }
+//       
+//	    if(rolling) {
+//	        if(diceCounter < 50) {
+//	            dice[0] = randomGen.nextInt(6);
+//	            dice[1] = randomGen.nextInt(6);
+//	            diceCounter++;
+//	        }
+//	        else {
+//	            switch(dice[0]+1) {
+//	                case 1:
+//	                case 4:
+//	                    steps += 1;
+//	                    break;
+//	                case 2:
+//	                case 5:
+//	                    steps += 2;
+//	                    break;
+//	                case 3:
+//	                case 6:
+//	                    steps += 3;
+//	                    break;
+//	            }
+//               
+//	            switch(dice[1]+1) {
+//	                case 1:
+//	                case 4:
+//	                    steps += 1;
+//	                    break;
+//	                case 2:
+//	                case 5:
+//	                    steps += 2;
+//	                    break;
+//	                case 3:
+//	                case 6:
+//	                    steps += 3;
+//	                    break;
+//	            }
+//	            rolling = false;
+//	            diceCounter = 0;
+//	        }
+//	    }
     	
     	if(!moving) {
     		
@@ -173,7 +173,7 @@ public class Player extends Entity{
     			}
     			
     			gp.cChecker.checkTile();
-    			if(!collisionOn && steps != 0) {
+    			if(!collisionOn) { //  && steps != 0
     				moving = true;
     				spriteNum = 1;
     			}
@@ -210,7 +210,8 @@ public class Player extends Entity{
     			movingCounter = 0;
     			moving = false;
     			spriteNum = 0;
-    			steps--;
+    			steps++;
+//    			steps--;
     			gp.cChecker.checkVillages();
     			
     			// allow the player to move only one time before battle begins 
