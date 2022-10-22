@@ -62,8 +62,8 @@ public class UI{
 //		}
 		
 		if(gp.state == gp.BATTLE) {
-		    g2.drawImage(redDice[gp.player.dice[0]], 400, 0, gp.tileSize, gp.tileSize, null);
-            g2.drawImage(blueDice[gp.player.dice[1]], 455, 0, gp.tileSize, gp.tileSize, null);
+		    g2.drawImage(redDice[gp.player.dice[0]], 400, gp.tileSize, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(blueDice[gp.player.dice[1]], 455, gp.tileSize, gp.tileSize, gp.tileSize, null);
         
 		    g2.drawString("HP: " + gp.monstersM.monsters[gp.battleM.monsterIndex].hit_point, 10, 370);
 		    g2.drawImage(redDice[gp.monstersM.monsters[gp.battleM.monsterIndex].dice[0]], 25, gp.tileSize*8, gp.tileSize, gp.tileSize, null);

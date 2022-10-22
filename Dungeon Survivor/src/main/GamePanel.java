@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import entity.MinesManager;
 import entity.MonstersManager;
 import entity.Player;
 import tile.TileManager;
@@ -34,7 +35,8 @@ public class GamePanel extends JPanel implements Runnable{
 	public TileManager tileM = new TileManager(this);
 	public CollisionChecker cChecker = new CollisionChecker(this);
 	public BattleManager battleM = new BattleManager(this);
-	MonstersManager monstersM = new MonstersManager(this);
+	public MonstersManager monstersM = new MonstersManager(this);
+	public MinesManager minesM = new MinesManager(this);
 	Player player = new Player(this);
 	Thread gameThread;
 		

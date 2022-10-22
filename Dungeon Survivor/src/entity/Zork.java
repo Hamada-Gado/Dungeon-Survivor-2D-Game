@@ -9,12 +9,11 @@ import javax.imageio.ImageIO;
 
 import main.GamePanel;
 
-public class Dragon extends Entity{
-    
+public class Zork extends Entity{
     GamePanel gp;
-    static final int number = 5;
+    static final int number = 1;
     
-    public Dragon(GamePanel gp, int col, int row) {
+    public Zork(GamePanel gp, int col, int row) {
         this.gp = gp;
         setDefaultValues(col, row);
         getImage();
@@ -23,10 +22,10 @@ public class Dragon extends Entity{
     public void setDefaultValues(int col, int row) {
         this.x = col*gp.tileSize;
         this.y = row*gp.tileSize;
-        hit_point = 200;
+        hit_point = 500;
         visable = false;
         direction = DOWN;
-        symbol = DRAGON;
+        symbol = ZORK;
     }
     
     public void getImage() {
@@ -65,34 +64,34 @@ public class Dragon extends Entity{
         if(!visable)
             return;
         
-//        spriteCounter++;
-//        if(spriteCounter > 12) {
-//            if(spriteNum == 5)
-//                spriteNum = 0;
-//            else spriteNum++;
-//            spriteCounter = 0;
-//        }
-//        
-//        BufferedImage image = null;
-//       
-//        switch(direction) {
-//            case UP:
-//                image = standingUp[spriteNum%2];
-//                break;
-//            case DOWN:
-//                image = standingDown[spriteNum%2]; 
-//                break;
-//            case LEFT:
-//                image = standingLeft[spriteNum];
-//                break;
-//            case RIGHT:
-//                image = standingRight[spriteNum];
-//                break;
-//        }
-//        
-//        g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+    //    spriteCounter++;
+    //    if(spriteCounter > 12) {
+    //        if(spriteNum == 5)
+    //            spriteNum = 0;
+    //        else spriteNum++;
+    //        spriteCounter = 0;
+    //    }
+    //    
+    //    BufferedImage image = null;
+    //   
+    //    switch(direction) {
+    //        case UP:
+    //            image = standingUp[spriteNum%2];
+    //            break;
+    //        case DOWN:
+    //            image = standingDown[spriteNum%2]; 
+    //            break;
+    //        case LEFT:
+    //            image = standingLeft[spriteNum];
+    //            break;
+    //        case RIGHT:
+    //            image = standingRight[spriteNum];
+    //            break;
+    //    }
+    //    
+    //    g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
         
-        g2.setColor(Color.red);
+        g2.setColor(Color.blue);
         g2.fillRect(x, y, gp.tileSize, gp.tileSize);
     }
 

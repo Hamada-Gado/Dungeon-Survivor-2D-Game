@@ -12,24 +12,24 @@ import main.GamePanel;
 public class Goblin extends Entity{
     
     GamePanel gp;
-    static int number = 10;
+    static final int number = 10;
     
-    public Goblin(GamePanel gp, int x, int y) {
+    public Goblin(GamePanel gp, int col, int row) {
         this.gp = gp;
-        setDefaultValues(x, y);
-        getDragonImage();
+        setDefaultValues(col, row);
+        getImage();
     }
     
-    public void setDefaultValues(int x, int y) {
-        this.x = x*gp.tileSize;
-        this.y = y*gp.tileSize;
+    public void setDefaultValues(int col, int row) {
+        this.x = col*gp.tileSize;
+        this.y = row*gp.tileSize;
         hit_point = 100;
         visable = false;
         direction = UP;
         symbol = GOBLIN;
     }
     
-    public void getDragonImage() {
+    public void getImage() {
         try {
             standingUp = new BufferedImage[2];
             standingUp[0] = ImageIO.read(getClass().getResourceAsStream("/hero/standing up 1.png"));

@@ -27,7 +27,7 @@ public class Player extends Entity{
 	public void setDefaultValues() {
 		x = 17 * gp.tileSize;
 		y = 1 * gp.tileSize;
-		speed = 2;
+		speed = 4;
 		steps = 0;
 		facing = true;
 		direction = DOWN;
@@ -213,6 +213,7 @@ public class Player extends Entity{
     			steps++;
 //    			steps--;
     			gp.cChecker.checkVillages();
+    			gp.cChecker.checkMines();
     			
     			// allow the player to move only one time before battle begins 
     			if(state == 0 && gp.state == gp.BATTLE)

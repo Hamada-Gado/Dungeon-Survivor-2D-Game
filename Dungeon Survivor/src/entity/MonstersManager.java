@@ -18,14 +18,21 @@ public class MonstersManager {
     }
     
     public void setMonsters() {
+        int dragonNum = Dragon.number;
+        int gargoyleNum = Gargoyle.number;
+        int goblinNum = Goblin.number;
+        int zorkNum = Zork.number;
+
         total_num = Dragon.number + Gargoyle.number + Goblin.number;
         monsters = new Entity[total_num];
-        char[] symbols = {Entity.DRAGON, Entity.GARGOYLE, Entity.GOBLIN};
+        
+        char[] symbols = {Entity.DRAGON, Entity.GARGOYLE, Entity.GOBLIN, Entity.ZORK, Entity.MINE};
         char symbol;
+
         boolean allowedPlacement;
         boolean flag;
         Random random = new Random();
-        int col, row, tileNum;
+        int col, row, tileNum;      
         
         while(total_num > 0) {
             col = random.nextInt(gp.maxScreenCol);
@@ -56,15 +63,19 @@ public class MonstersManager {
                     symbol = symbols[random.nextInt(symbols.length)];
                     switch(symbol) {
                         case Entity.DRAGON:
-                            if(Dragon.number == 0)
+                            if(dragonNum == 0)
                                 flag = false;
                             break;
                         case Entity.GARGOYLE:
-                            if(Gargoyle.number == 0)
+                            if(gargoyleNum == 0)
                                 flag = false;
                             break;
                         case Entity.GOBLIN:
-                            if(Goblin.number == 0)
+                            if(goblinNum == 0)
+                                flag = false;
+                            break;
+                        case Entity.ZORK:
+                            if(zorkNum == 0)
                                 flag = false;
                             break;
                         default:
@@ -75,15 +86,19 @@ public class MonstersManager {
                 switch(symbol) {
                     case Entity.DRAGON:
                         monsters[--total_num] = new Dragon(gp, col, row);
-                        Dragon.number--;
+                        dragonNum--;
                         break;
                     case Entity.GARGOYLE:
                         monsters[--total_num] = new Gargoyle(gp, col, row);
-                        Gargoyle.number--;
+                        gargoyleNum--;
                         break;
                     case Entity.GOBLIN:
                         monsters[--total_num] = new Goblin(gp, col, row);
-                        Goblin.number--;
+                        goblinNum--;
+                        break;
+                    case Entity.ZORK:
+                        monsters[--total_num] = new Goblin(gp, col, row);
+                        zorkNum--;
                         break;
                 }
             }
@@ -95,6 +110,7 @@ public class MonstersManager {
         for(Entity e : monsters) {
             if(e != null) {
                 e.draw(g2);
+                e.visable = true;
             }
         }
         

@@ -2,6 +2,8 @@ package main;
 
 import java.util.Random;
 
+import entity.Entity;
+
 public class BattleManager {
 
     GamePanel gp;
@@ -46,6 +48,20 @@ public class BattleManager {
                 if(gp.monstersM.monsters[i] != null && gp.player.x == gp.monstersM.monsters[i].x && gp.player.y == gp.monstersM.monsters[i].y) {
                     monsterIndex = i;
                     gp.monstersM.monsters[monsterIndex].visable = true;
+                    switch (gp.player.direction){
+                        case Entity.UP:
+                            gp.monstersM.monsters[monsterIndex].direction = Entity.DOWN;
+                            break;
+                        case Entity.DOWN:
+                            gp.monstersM.monsters[monsterIndex].direction = Entity.UP;
+                            break;
+                        case Entity.LEFT:
+                            gp.monstersM.monsters[monsterIndex].direction = Entity.RIGHT;
+                            break;
+                        case Entity.RIGHT:
+                            gp.monstersM.monsters[monsterIndex].direction = Entity.LEFT;
+                            break;
+                    }
 //                    oldDice[0] = gp.player.dice[0];
 //                    oldDice[1] = gp.player.dice[1];
                     setBattle();
@@ -104,6 +120,8 @@ public class BattleManager {
                 else if(state == 2) {
                     int damage = (gp.monstersM.monsters[monsterIndex].dice[0]+1)*10 + gp.monstersM.monsters[monsterIndex].dice[1]+1;
                     gp.player.hit_point -= damage;
+                    if(gp.monstersM.monsters[monsterIndex].symbol == Entity.ZORK && gp.monstersM.monsters[monsterIndex].dice[0] == gp.monstersM.monsters[monsterIndex].dice[1])
+                            damage += 100;
                     if(gp.player.hit_point <= 0) {
                         gp.player.hit_point = 0;
                         gp.gameThread = null;
@@ -113,12 +131,21 @@ public class BattleManager {
                     diceCounter = 0;
                 }
                 else if(state == 3) {
+                    // player damage
                     int damage = (gp.player.dice[0]+1)*10 + gp.player.dice[1]+1;
                     if(gp.player.dice[0] == gp.player.dice[1])
                         damage += 100;
                     gp.monstersM.monsters[monsterIndex].hit_point -= damage;
+                    
+                    if(gp.monstersM.monsters[monsterIndex].hit_point <= 0)
+                        gp.monstersM.monsters[monsterIndex].hit_point = 0;
+                    
+                    // monster damage
                     damage = (gp.monstersM.monsters[monsterIndex].dice[0]+1)*10 + gp.monstersM.monsters[monsterIndex].dice[1]+1;
+                    if(gp.monstersM.monsters[monsterIndex].symbol == Entity.ZORK && gp.monstersM.monsters[monsterIndex].dice[0] == gp.monstersM.monsters[monsterIndex].dice[1])
+                        damage += 100;
                     gp.player.hit_point -= damage;
+                    
                     if(gp.player.hit_point <= 0) {
                         gp.player.hit_point = 0;
                         gp.gameThread = null;
