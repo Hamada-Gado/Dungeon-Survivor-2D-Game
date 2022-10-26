@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 import entity.MinesManager;
 import entity.MonstersManager;
 import entity.Player;
+import screens.EndScreen;
+import screens.StartScreen;
 import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable{
@@ -20,24 +22,26 @@ public class GamePanel extends JPanel implements Runnable{
 	public final int tileSize = originalTileSize * scale;
 	public final int maxScreenCol = 19;
 	public final int maxScreenRow = 16;
-	final int screenWidth = tileSize * maxScreenCol;
-	final int screenHeight = tileSize * maxScreenRow;
+	public final int screenWidth = tileSize * maxScreenCol;
+	public final int screenHeight = tileSize * maxScreenRow;
 	
-	// state 0 = move, state 1 = battle
-	public int state;
-	public final int MOVE = 0;
-	public final int BATTLE = 1;
+	int panelState;
+	public final int START = 0;
+	public final int GAME = 1;
+	public final int END = 2;
 
 	final int FPS = 60;
 	
 	public KeyHandler keyH = new KeyHandler(this);
 	public UI ui = new UI(this);
+	public StartScreen ss = new StartScreen(this);
+	public EndScreen es = new EndScreen(this);
 	public TileManager tileM = new TileManager(this);
 	public CollisionChecker cChecker = new CollisionChecker(this);
 	public BattleManager battleM = new BattleManager(this);
 	public MonstersManager monstersM = new MonstersManager(this);
 	public MinesManager minesM = new MinesManager(this);
-	Player player = new Player(this);
+	public Player player = new Player(this);
 	Thread gameThread;
 		
 	public GamePanel() {
@@ -49,8 +53,8 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	public void startGameThread() {
-		state = MOVE;
 		gameThread = new Thread(this);
+		panelState = START;
 		gameThread.start();
 	}
 
@@ -79,7 +83,7 @@ public class GamePanel extends JPanel implements Runnable{
 			}
 			
 			if(timer >= 1_000_000_000) {
-				System.out.println("FPS " + drawCounter);
+//				System.out.println("FPS " + drawCounter);
 				drawCounter = 0;
 				timer = 0;
 			}
@@ -91,8 +95,12 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	public void update() {
 
-	    player.update();
-        battleM.update();
+	    if(panelState != GAME)
+	        return;
+	    
+        player.update();
+        battleM.update();   
+        
 	}
 	
 	@Override
@@ -101,14 +109,26 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		Graphics2D g2 = (Graphics2D)g;
 		
-		tileM.draw(g2);
-		monstersM.draw(g2);
-		player.draw(g2);
-		ui.draw(g2);
+		if(panelState == START) {
+		    ss.draw(g2);
+        }
+        else if(panelState == GAME) {
+            tileM.draw(g2);
+            monstersM.draw(g2);
+            player.draw(g2);
+            ui.draw(g2);
+        }
+        else if(panelState == END) {
+            es.draw(g2);
+        }
 		
 		g2.dispose();
 	}
 	
-	
+	void restart() {
+	    monstersM = new MonstersManager(this);
+	    minesM = new MinesManager(this);
+	    player = new Player(this);
+	}
 
 }

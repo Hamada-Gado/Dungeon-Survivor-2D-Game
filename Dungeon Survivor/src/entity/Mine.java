@@ -1,5 +1,8 @@
 package entity;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+
 import main.GamePanel;
 
 public class Mine extends Entity{
@@ -15,4 +18,8 @@ public class Mine extends Entity{
         this.symbol = MINE;
     }
 
+    public void draw(Graphics2D g2) {
+        g2.setColor(Color.black);
+        g2.fillRect(x, y, gp.tileSize, gp.tileSize);
+    }
 }

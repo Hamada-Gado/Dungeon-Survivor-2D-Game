@@ -10,7 +10,7 @@ public class MonstersManager {
     
     GamePanel gp;
     public Entity[] monsters;
-    int total_num;
+    public int monster_remaning;
     
     public MonstersManager(GamePanel gp) {
         this.gp = gp;
@@ -18,21 +18,24 @@ public class MonstersManager {
     }
     
     public void setMonsters() {
+        monster_remaning = Dragon.number + Gargoyle.number + Goblin.number;
+
         int dragonNum = Dragon.number;
         int gargoyleNum = Gargoyle.number;
         int goblinNum = Goblin.number;
-        int zorkNum = Zork.number;
-
-        total_num = Dragon.number + Gargoyle.number + Goblin.number;
-        monsters = new Entity[total_num];
+        int total_num = monster_remaning;
         
-        char[] symbols = {Entity.DRAGON, Entity.GARGOYLE, Entity.GOBLIN, Entity.ZORK, Entity.MINE};
+        monsters = new Entity[total_num + 1];
+        monsters[0] = new Zork(gp, 1, 10);
+        
+        char[] symbols = {Entity.DRAGON, Entity.GARGOYLE, Entity.GOBLIN};
         char symbol;
 
         boolean allowedPlacement;
-        boolean flag;
+        boolean emptyMonster;
         Random random = new Random();
-        int col, row, tileNum;      
+        int col, row, tileNum;
+        
         
         while(total_num > 0) {
             col = random.nextInt(gp.maxScreenCol);
@@ -40,9 +43,19 @@ public class MonstersManager {
             tileNum = gp.tileM.mapTileNum[col][row];
             
             // check if this placement is allowed
-            if(col*gp.tileSize == 17*gp.tileSize && row*gp.tileSize == 1*gp.tileSize)
+            if(// Player Start zone
+               col*gp.tileSize == 17*gp.tileSize && row*gp.tileSize == 1*gp.tileSize ||
+               col*gp.tileSize == 16*gp.tileSize && row*gp.tileSize == 1*gp.tileSize ||
+               col*gp.tileSize == 17*gp.tileSize && row*gp.tileSize == 2*gp.tileSize ||
+               col*gp.tileSize == 16*gp.tileSize && row*gp.tileSize == 2*gp.tileSize ||
+               // Zork zone
+               col*gp.tileSize == 1*gp.tileSize && row*gp.tileSize == 10*gp.tileSize ||
+               col*gp.tileSize == 1*gp.tileSize && row*gp.tileSize == 11*gp.tileSize ||
+               col*gp.tileSize == 2*gp.tileSize && row*gp.tileSize == 10*gp.tileSize ||
+               col*gp.tileSize == 2*gp.tileSize && row*gp.tileSize == 11*gp.tileSize)
                 continue;
             allowedPlacement = true;
+            // check if there is a monster in this position
             for(int i = monsters.length-1; i >= 0 && allowedPlacement; i--) {
                 if(monsters[i] == null)
                     break;
@@ -57,48 +70,39 @@ public class MonstersManager {
                 if(monsters[i].x == col*gp.tileSize && monsters[i].y == (row+1)*gp.tileSize)
                     allowedPlacement = false;
             }
+            
             if(gp.tileM.tiles[tileNum].symbol == TileManager.map_tile && allowedPlacement) {
                 do {
-                    flag = true;
+                    emptyMonster = false;
                     symbol = symbols[random.nextInt(symbols.length)];
                     switch(symbol) {
                         case Entity.DRAGON:
                             if(dragonNum == 0)
-                                flag = false;
+                                emptyMonster = true;
                             break;
                         case Entity.GARGOYLE:
                             if(gargoyleNum == 0)
-                                flag = false;
+                                emptyMonster = true;
                             break;
                         case Entity.GOBLIN:
                             if(goblinNum == 0)
-                                flag = false;
+                                emptyMonster = true;
                             break;
-                        case Entity.ZORK:
-                            if(zorkNum == 0)
-                                flag = false;
-                            break;
-                        default:
-                            flag = true;
                     }
-                }while(!flag);
+                }while(emptyMonster);
 
                 switch(symbol) {
                     case Entity.DRAGON:
-                        monsters[--total_num] = new Dragon(gp, col, row);
+                        monsters[total_num--] = new Dragon(gp, col, row);
                         dragonNum--;
                         break;
                     case Entity.GARGOYLE:
-                        monsters[--total_num] = new Gargoyle(gp, col, row);
+                        monsters[total_num--] = new Gargoyle(gp, col, row);
                         gargoyleNum--;
                         break;
                     case Entity.GOBLIN:
-                        monsters[--total_num] = new Goblin(gp, col, row);
+                        monsters[total_num--] = new Goblin(gp, col, row);
                         goblinNum--;
-                        break;
-                    case Entity.ZORK:
-                        monsters[--total_num] = new Goblin(gp, col, row);
-                        zorkNum--;
                         break;
                 }
             }
@@ -110,7 +114,7 @@ public class MonstersManager {
         for(Entity e : monsters) {
             if(e != null) {
                 e.draw(g2);
-                e.visable = true;
+//                e.visable = true;
             }
         }
         

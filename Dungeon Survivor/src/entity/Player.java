@@ -3,7 +3,6 @@ package entity;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -12,14 +11,19 @@ import main.GamePanel;
 public class Player extends Entity{
 	
 	GamePanel gp;
-//	Random randomGen;
-//	public boolean rolling;
-//	public int diceCounter;
-	public int state;
+	// state = 0 does nothing, state = 1 allow the idle animation only when in battle
+	public int movingState;
+	// state 0 = move, state 1 = battle
+    public int gameState;
+    public final int MOVE = 0;
+    public final int BATTLE = 1;
+    
+    // if i want to move the player 
+    // from the code not the keys input
+    public boolean forcedMove;
 	
 	public Player(GamePanel gp) {
 		this.gp = gp;
-//		randomGen = new Random();
 		setDefaultValues();
 		getPlayerImage();
 	}
@@ -27,14 +31,15 @@ public class Player extends Entity{
 	public void setDefaultValues() {
 		x = 17 * gp.tileSize;
 		y = 1 * gp.tileSize;
-		speed = 4;
+		speed = 1;
 		steps = 0;
 		facing = true;
 		direction = DOWN;
 		hit_point = 400;
 		symbol = HERO;
-//		diceCounter = 0;
-		state = 0;
+		gameState = MOVE;
+		movingState = 0;
+		forcedMove = false;
 	}
 	
 	public void getPlayerImage() {
@@ -97,67 +102,18 @@ public class Player extends Entity{
 	
 	public void update() {
 	    
-//	    if(gp.keyH.rPressed && gp.state == gp.MOVE && steps == 0) {
-//	        rolling = true;            
-//	    }
-//       
-//	    if(rolling) {
-//	        if(diceCounter < 50) {
-//	            dice[0] = randomGen.nextInt(6);
-//	            dice[1] = randomGen.nextInt(6);
-//	            diceCounter++;
-//	        }
-//	        else {
-//	            switch(dice[0]+1) {
-//	                case 1:
-//	                case 4:
-//	                    steps += 1;
-//	                    break;
-//	                case 2:
-//	                case 5:
-//	                    steps += 2;
-//	                    break;
-//	                case 3:
-//	                case 6:
-//	                    steps += 3;
-//	                    break;
-//	            }
-//               
-//	            switch(dice[1]+1) {
-//	                case 1:
-//	                case 4:
-//	                    steps += 1;
-//	                    break;
-//	                case 2:
-//	                case 5:
-//	                    steps += 2;
-//	                    break;
-//	                case 3:
-//	                case 6:
-//	                    steps += 3;
-//	                    break;
-//	            }
-//	            rolling = false;
-//	            diceCounter = 0;
-//	        }
-//	    }
-    	
+	    if(movingCounter == 0)
+	        moving = false;
+	    
+	    if(forcedMove) {            
+            forcedMove = false;
+            moving = true;
+        }
+	       	
     	if(!moving) {
-    		
-    		spriteCounter++;
-    		if(spriteCounter > 12) {
-    			if(spriteNum >= 5)
-    				spriteNum = 0;
-    			else spriteNum++;
-    			spriteCounter = 0;
-    		}
-    		
-    		// allow the idle animation only when in battle
-    		if(state == 1)
-                return;
-    		
-    		if(gp.keyH.upPressed || gp.keyH.downPressed 
-    		|| gp.keyH.leftPressed || gp.keyH.rightPressed) {
+    	    
+    		if((gp.keyH.upPressed || gp.keyH.downPressed 
+    		|| gp.keyH.leftPressed || gp.keyH.rightPressed) && movingState == 0) {
     
     			if(gp.keyH.upPressed) {
     				direction = UP;
@@ -173,23 +129,28 @@ public class Player extends Entity{
     			}
     			
     			gp.cChecker.checkTile();
-    			if(!collisionOn) { //  && steps != 0
+    			if(!collisionOn) {
     				moving = true;
-    				spriteNum = 1;
+    				// to not throw exception when starting to move
+    	            if(spriteNum > 3)
+    	                spriteNum = 0;
     			}
     		}
+    		
+    		// to make continuous movement smooth
+            if(!moving) {
+                spriteCounter++;
+                if(spriteCounter > 12) {
+                    if(spriteNum >= 5)
+                        spriteNum = 0;
+                    else spriteNum++;
+                    spriteCounter = 0;
+                }
+            }
     	}
     	
     	if(moving) {
-    		
-    		spriteCounter++;
-    		if(spriteCounter > 12) {
-    			if(spriteNum >= 3)
-    				spriteNum = 0;
-    			else spriteNum++;
-    			spriteCounter = 0;
-    		}	
-    		
+    	    
     		switch(direction) {
     			case UP:
     				y -= speed;
@@ -206,19 +167,24 @@ public class Player extends Entity{
     		}
     		
     		movingCounter += speed;
-    		if(movingCounter >= 48) {
+		    if(movingCounter >= 48) {
     			movingCounter = 0;
-    			moving = false;
-    			spriteNum = 0;
     			steps++;
-//    			steps--;
     			gp.cChecker.checkVillages();
     			gp.cChecker.checkMines();
     			
     			// allow the player to move only one time before battle begins 
-    			if(state == 0 && gp.state == gp.BATTLE)
-    			    state = 1;
+    			if(movingState == 0 && gameState == BATTLE)
+    			    movingState = 1;
     		}
+    		
+		    spriteCounter++;
+              if(spriteCounter > 12) {
+                  if(spriteNum >= 3)
+                      spriteNum = 0;
+                  else spriteNum++;
+                  spriteCounter = 0;
+              }
     	}
     }
 

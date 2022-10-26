@@ -50,27 +50,20 @@ public class UI{
 	}
 	
 	public void draw(Graphics2D g2) {
-		
-		g2.setFont(font);
-		g2.setColor(Color.white);
-		g2.drawString("HP: " + gp.player.hit_point, 20, 40);
-		g2.drawString("Steps: " + gp.player.steps, 220, 40);
-		
-//		if(gp.player.rolling || gp.player.steps != 0) {
-//		    g2.drawImage(redDice[gp.player.dice[0]], 400, 0, gp.tileSize, gp.tileSize, null);
-//            g2.drawImage(blueDice[gp.player.dice[1]], 455, 0, gp.tileSize, gp.tileSize, null);
-//		}
-		
-		if(gp.state == gp.BATTLE) {
-		    g2.drawImage(redDice[gp.player.dice[0]], 400, gp.tileSize, gp.tileSize, gp.tileSize, null);
+	    
+	    g2.setFont(font);
+        g2.setColor(Color.white);
+        g2.drawString("HP: " + gp.player.hit_point, 20, 40);
+        g2.drawString("Steps: " + gp.player.steps, 220, 40);
+        g2.drawString("Monsters: " + gp.monstersM.monster_remaning, 600, 40);
+        
+        if(gp.player.gameState == gp.player.BATTLE) {
+            g2.drawImage(redDice[gp.player.dice[0]], 400, gp.tileSize, gp.tileSize, gp.tileSize, null);
             g2.drawImage(blueDice[gp.player.dice[1]], 455, gp.tileSize, gp.tileSize, gp.tileSize, null);
         
-		    g2.drawString("HP: " + gp.monstersM.monsters[gp.battleM.monsterIndex].hit_point, 10, 370);
-		    g2.drawImage(redDice[gp.monstersM.monsters[gp.battleM.monsterIndex].dice[0]], 25, gp.tileSize*8, gp.tileSize, gp.tileSize, null);
-		    g2.drawImage(blueDice[gp.monstersM.monsters[gp.battleM.monsterIndex].dice[1]], 80, gp.tileSize*8, gp.tileSize, gp.tileSize, null);
-		}
-		
-		g2.dispose();
+            g2.drawString("HP: " + gp.monstersM.monsters[gp.battleM.monsterIndex].hit_point, 10, 370);
+            g2.drawImage(redDice[gp.monstersM.monsters[gp.battleM.monsterIndex].dice[0]], 25, gp.tileSize*8, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(blueDice[gp.monstersM.monsters[gp.battleM.monsterIndex].dice[1]], 80, gp.tileSize*8, gp.tileSize, gp.tileSize, null);
+        }	
 	}
-	
 }
