@@ -114,7 +114,6 @@ public class MonstersManager {
         for(Entity e : monsters) {
             if(e != null) {
                 e.draw(g2);
-//                e.visable = true;
             }
         }
         

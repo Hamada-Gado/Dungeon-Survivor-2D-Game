@@ -14,6 +14,7 @@ public class BattleManager {
     int battleState;
     boolean rolling;
     int diceCounter;
+    int endGameCounter;
     
     public BattleManager(GamePanel gp) {
         this.gp = gp;
@@ -180,7 +181,14 @@ public class BattleManager {
                    rolling = true;
                 }
                 else if(battleState == 4) {
-                    if(gp.keyH.rPressed) {
+                    if(gp.monstersM.monsters[monsterIndex].symbol == Entity.ZORK) {
+                        if(endGameCounter >= 56) {
+                            endGameCounter = 0;
+                            endBattle();
+                        }
+                        endGameCounter++;
+                    }
+                    else if(gp.keyH.rPressed) {
                         rolling = true;
                     }
                 }

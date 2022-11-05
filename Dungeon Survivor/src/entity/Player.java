@@ -108,6 +108,10 @@ public class Player extends Entity{
 	    if(forcedMove) {            
             forcedMove = false;
             moving = true;
+            
+            // to not throw exception index out of bound when starting to move
+            if(spriteNum > 3)
+                spriteNum = 0;
         }
 	       	
     	if(!moving) {
@@ -131,7 +135,7 @@ public class Player extends Entity{
     			gp.cChecker.checkTile();
     			if(!collisionOn) {
     				moving = true;
-    				// to not throw exception when starting to move
+    				// to not throw exception index out of bound when starting to move
     	            if(spriteNum > 3)
     	                spriteNum = 0;
     			}
