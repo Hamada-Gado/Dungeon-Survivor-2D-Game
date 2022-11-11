@@ -11,7 +11,7 @@ import main.GamePanel;
 public class Dragon extends Entity{
     
     GamePanel gp;
-    static final int number = 5;
+    public static final int number = 5;
     
     public Dragon(GamePanel gp, int col, int row) {
         this.gp = gp;

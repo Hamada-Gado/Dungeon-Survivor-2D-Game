@@ -12,7 +12,7 @@ import main.GamePanel;
 public class Goblin extends Entity{
     
     GamePanel gp;
-    static final int number = 10;
+    public static final int number = 10;
     
     public Goblin(GamePanel gp, int col, int row) {
         this.gp = gp;

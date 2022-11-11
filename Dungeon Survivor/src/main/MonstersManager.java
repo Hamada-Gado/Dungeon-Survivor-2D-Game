@@ -1,9 +1,13 @@
-package entity;
+package main;
 
 import java.awt.Graphics2D;
 import java.util.Random;
 
-import main.GamePanel;
+import entity.Dragon;
+import entity.Entity;
+import entity.Gargoyle;
+import entity.Goblin;
+import entity.Zork;
 import tile.TileManager;
 
 public class MonstersManager {

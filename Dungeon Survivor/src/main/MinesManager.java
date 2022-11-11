@@ -1,4 +1,4 @@
-package entity;
+package main;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -7,7 +7,7 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
-import main.GamePanel;
+import entity.Mine;
 import tile.TileManager;
 
 public class MinesManager {

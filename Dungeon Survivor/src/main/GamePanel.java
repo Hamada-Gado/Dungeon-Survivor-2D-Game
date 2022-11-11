@@ -7,8 +7,6 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-import entity.MinesManager;
-import entity.MonstersManager;
 import entity.Player;
 import screens.EndScreen;
 import screens.LevelScreen;

@@ -8,7 +8,7 @@ import main.GamePanel;
 public class Mine extends Entity{
     
     GamePanel gp;
-    static final int number = 5;
+    public static final int number = 5;
     final int damage = 100;
     
     public Mine(GamePanel gp, int col, int row){
