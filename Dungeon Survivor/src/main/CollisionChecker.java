@@ -69,12 +69,9 @@ public class CollisionChecker {
 	public void checkMines() {
 	    for(int i = 0; i < gp.minesM.mines.length; i++) {
 	        if(gp.minesM.mines[i] != null && gp.player.x == gp.minesM.mines[i].x && gp.player.y == gp.minesM.mines[i].y) {
-	            gp.minesM.mines[i] = null;            
+	            gp.minesM.setExplosion(gp.minesM.mines[i]);
+	            gp.minesM.mines[i] = null;    
 	            gp.player.hit_point -= 100;
-	            if(gp.player.hit_point <= 0) {
-	                gp.player.hit_point = 0;
-	                gp.gameThread = null;
-	            }
 	        }
 	    }
 	}

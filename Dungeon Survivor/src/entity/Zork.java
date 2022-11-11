@@ -1,6 +1,5 @@
 package entity;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -81,9 +80,6 @@ public class Zork extends Entity{
         }
         
         g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
-        
-//        g2.setColor(Color.blue);
-//        g2.fillRect(x, y, gp.tileSize, gp.tileSize);
     }
 
 }

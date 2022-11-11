@@ -11,6 +11,7 @@ import entity.MinesManager;
 import entity.MonstersManager;
 import entity.Player;
 import screens.EndScreen;
+import screens.LevelScreen;
 import screens.StartScreen;
 import tile.TileManager;
 
@@ -25,10 +26,11 @@ public class GamePanel extends JPanel implements Runnable{
 	public final int screenWidth = tileSize * maxScreenCol;
 	public final int screenHeight = tileSize * maxScreenRow;
 	
-	int panelState;
+	public int panelState;
 	public final int START = 0;
 	public final int GAME = 1;
-	public final int END = 2;
+	public final int LEVEL = 2;
+	public final int END = 3;
 
 	final int FPS = 60;
 	
@@ -36,12 +38,14 @@ public class GamePanel extends JPanel implements Runnable{
 	public UI ui = new UI(this);
 	public StartScreen ss = new StartScreen(this);
 	public EndScreen es = new EndScreen(this);
+	public LevelScreen ls = new LevelScreen(this);
 	public TileManager tileM = new TileManager(this);
 	public CollisionChecker cChecker = new CollisionChecker(this);
 	public BattleManager battleM = new BattleManager(this);
 	public MonstersManager monstersM = new MonstersManager(this);
 	public MinesManager minesM = new MinesManager(this);
 	public Player player = new Player(this);
+	public Sound sound = new Sound();
 	Thread gameThread;
 		
 	public GamePanel() {
@@ -83,7 +87,7 @@ public class GamePanel extends JPanel implements Runnable{
 			}
 			
 			if(timer >= 1_000_000_000) {
-//				System.out.println("FPS " + drawCounter);
+				System.out.println("FPS " + drawCounter);
 				drawCounter = 0;
 				timer = 0;
 			}
@@ -117,6 +121,11 @@ public class GamePanel extends JPanel implements Runnable{
             monstersM.draw(g2);
             player.draw(g2);
             ui.draw(g2);
+            minesM.explode(g2);
+
+        }
+        else if(panelState == LEVEL) {
+            ls.draw(g2);
         }
         else if(panelState == END) {
             es.draw(g2);
@@ -125,10 +134,26 @@ public class GamePanel extends JPanel implements Runnable{
 		g2.dispose();
 	}
 	
+	public void playMusic(int i) {
+	    sound.setFile(i);
+	    sound.play();
+	    sound.loop();
+	}
+	
+	public void stopMusic() {
+	    sound.stop();
+	}
+	
+	public void playSE(int i) {
+	    sound.setFile(i);
+	    sound.play();
+	}
+	
 	void restart() {
 	    monstersM = new MonstersManager(this);
 	    minesM = new MinesManager(this);
 	    player = new Player(this);
+	    player.hit_point = ls.level;
 	}
 
 }

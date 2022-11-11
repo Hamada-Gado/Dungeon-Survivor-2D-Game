@@ -41,7 +41,7 @@ public class KeyHandler implements KeyListener{
 		                gp.panelState = gp.GAME;
 		                break;
 		            case 1:
-		                // TODO change the level of the game
+		                gp.panelState = gp.LEVEL;
 		                break;
 		            case 2:
 		                gp.gameThread = null;
@@ -64,6 +64,20 @@ public class KeyHandler implements KeyListener{
 	        else if(code == KeyEvent.VK_R) {
 	            rPressed = true;
 	        }   
+		}
+		else if(gp.panelState == gp.LEVEL) {
+		    if(code == KeyEvent.VK_A && gp.ls.commandNum != 0) {
+		        gp.ls.commandNum--;
+		        gp.ls.level += 100;
+		    }
+		    if(code == KeyEvent.VK_D && gp.ls.commandNum != 2) {
+                gp.ls.commandNum++;
+                gp.ls.level -= 100;
+            }
+		    if(code == KeyEvent.VK_ENTER) {
+		        gp.player.hit_point = gp.ls.level;
+		        gp.panelState = gp.START;
+		    }
 		}
 		else if(gp.panelState == gp.END) {
 		    if(code == KeyEvent.VK_W) {

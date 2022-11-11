@@ -102,6 +102,7 @@ public class Player extends Entity{
 	
 	public void update() {
 	    
+	    // to not change move in draw therefore make continuous movement smooth
 	    if(movingCounter == 0)
 	        moving = false;
 	    
@@ -134,6 +135,7 @@ public class Player extends Entity{
     			
     			gp.cChecker.checkTile();
     			if(!collisionOn) {
+    			    gp.playSE(2);
     				moving = true;
     				// to not throw exception index out of bound when starting to move
     	            if(spriteNum > 3)
@@ -141,7 +143,7 @@ public class Player extends Entity{
     			}
     		}
     		
-    		// to make continuous movement smooth
+    		// to not throw exception index out of bound when starting to move
             if(!moving) {
                 spriteCounter++;
                 if(spriteCounter > 12) {

@@ -14,7 +14,7 @@ public class BattleManager {
     int battleState;
     boolean rolling;
     int diceCounter;
-    int endGameCounter;
+    int pauseCounter;
     
     public BattleManager(GamePanel gp) {
         this.gp = gp;
@@ -73,6 +73,7 @@ public class BattleManager {
         else if(gp.player.gameState == gp.player.BATTLE) {
            
             if(rolling) {
+                gp.playSE(0);
                 if(diceCounter < 50) {
                     if(battleState == 0) {
                         gp.player.dice[0] = randomGen.nextInt(6);
@@ -106,6 +107,7 @@ public class BattleManager {
                     diceCounter = 0;
                 }
                 else if(battleState == 1) {
+                    gp.playSE(1);
                     int damage = (gp.player.dice[0]+1)*10 + gp.player.dice[1]+1;
                     if(gp.player.dice[0] == gp.player.dice[1])
                         damage += 100;
@@ -119,10 +121,11 @@ public class BattleManager {
                     diceCounter = 0;
                 }
                 else if(battleState == 2) {
+                    gp.playSE(1);
                     int damage = (gp.monstersM.monsters[monsterIndex].dice[0]+1)*10 + gp.monstersM.monsters[monsterIndex].dice[1]+1;
-                    gp.player.hit_point -= damage;
                     if(gp.monstersM.monsters[monsterIndex].symbol == Entity.ZORK && gp.monstersM.monsters[monsterIndex].dice[0] == gp.monstersM.monsters[monsterIndex].dice[1])
                             damage += 100;
+                    gp.player.hit_point -= damage;
                     if(gp.player.hit_point <= 0) {
                         gp.player.hit_point = 0;
                         gp.panelState = gp.END;
@@ -133,6 +136,7 @@ public class BattleManager {
                     diceCounter = 0;
                 }
                 else if(battleState == 3) {
+                    gp.playSE(1);
                     // player damage
                     int damage = (gp.player.dice[0]+1)*10 + gp.player.dice[1]+1;
                     if(gp.player.dice[0] == gp.player.dice[1])
@@ -178,15 +182,19 @@ public class BattleManager {
                     }
                 }
                 else if(battleState == 2) {
-                   rolling = true;
+                    pauseCounter++;
+                    if(pauseCounter >= 56) {
+                        pauseCounter = 0;
+                        rolling = true;
+                    }
                 }
                 else if(battleState == 4) {
                     if(gp.monstersM.monsters[monsterIndex].symbol == Entity.ZORK) {
-                        if(endGameCounter >= 56) {
-                            endGameCounter = 0;
+                        pauseCounter++;
+                        if(pauseCounter >= 56) {
+                            pauseCounter = 0;
                             endBattle();
                         }
-                        endGameCounter++;
                     }
                     else if(gp.keyH.rPressed) {
                         rolling = true;
