@@ -29,8 +29,10 @@ public class GamePanel extends JPanel implements Runnable{
 	public final int GAME = 1;
 	public final int LEVEL = 2;
 	public final int END = 3;
-
+	
 	final int FPS = 60;
+
+	private boolean sound_off = false;
 	
 	public KeyHandler keyH = new KeyHandler(this);
 	public UI ui = new UI(this);
@@ -133,6 +135,7 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	public void playMusic(int i) {
+	    
 	    sound.setFile(i);
 	    sound.play();
 	    sound.loop();
@@ -143,8 +146,14 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	public void playSE(int i) {
+	    if(sound_off) return;
 	    sound.setFile(i);
 	    sound.play();
+	}
+	
+	public void toggle_sound() {
+	    sound_off = !sound_off;
+	    
 	}
 	
 	void restart() {

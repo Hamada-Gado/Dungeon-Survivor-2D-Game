@@ -24,6 +24,9 @@ public class KeyHandler implements KeyListener{
 		if(code == KeyEvent.VK_ESCAPE)
             gp.gameThread = null;
 		
+		if(code == KeyEvent.VK_M)
+		    gp.toggle_sound();
+		
 		if(gp.panelState == gp.START) {
 		    if(code == KeyEvent.VK_W) {
                 gp.ss.commandNum--;

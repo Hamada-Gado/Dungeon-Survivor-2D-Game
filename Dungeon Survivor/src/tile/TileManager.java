@@ -13,7 +13,8 @@ import main.GamePanel;
 public class TileManager {    
 
     // constant symbols of tiles
-    public static final char map_tile = 'm';
+    public static final char map_tile  = 'm';
+    public static final char boss_tile = 'B';
     public static final char village_a = 'a';
     public static final char village_b = 'b';
     public static final char village_c = 'c';
@@ -63,6 +64,10 @@ public class TileManager {
 			tiles[6] = new Tile();
 			tiles[6].image = ImageIO.read(getClass().getResourceAsStream("/tiles/villageC.png"));
 			tiles[6].symbol = village_c;
+			
+			tiles[7] = new Tile();
+			tiles[7].image = ImageIO.read(getClass().getResourceAsStream("/tiles/boss tile.png"));
+			tiles[7].symbol = boss_tile;
 			
 		} catch (IOException e) {
 			e.printStackTrace();
